@@ -2,12 +2,12 @@ export default function Login() {
     return (
         <>
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Sign in to your account
+                Log in to your account
             </h2>
             <p className="mt-10 text-center text-sm text-gray-500">
                 Not a member?{' '}
                 <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                    Start a 14 day free trial
+                    Sign Up
                 </a>
             </p>
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
