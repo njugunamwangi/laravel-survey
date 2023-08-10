@@ -2,6 +2,7 @@ import PageComponent from "../components/PageComponent.jsx";
 import {useState} from "react";
 import {PhotoIcon, UserCircleIcon} from "@heroicons/react/20/solid/index.js";
 import TButton from "../components/core/TButton.jsx";
+import axiosClient from "../axios.js";
 
 export default function SurveyView() {
     const [ survey, setSurvey ] = useState({
@@ -21,7 +22,13 @@ export default function SurveyView() {
 
     const onSubmit = (ev) => {
         ev.preventDefault();
-        console.log(ev);
+
+        axiosClient.post('/survey', {
+            title: 'Lorem Ipsum',
+            description: 'Lorem Ipsum',
+            expire_date: '11/24/2023',
+            status: true
+        })
     }
 
     return (
@@ -31,7 +38,7 @@ export default function SurveyView() {
                     <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
                         {/* Image */}
                         <div className="col-span-full">
-                            <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="image" className="block text-sm font-medium leading-6 text-gray-900">
                                 Cover photo
                             </label>
                             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -48,11 +55,11 @@ export default function SurveyView() {
                                             <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
                                             <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                                 <label
-                                                    htmlFor="photo"
+                                                    htmlFor="image"
                                                     className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                                     >
                                                     <span>Upload a file</span>
-                                                    <input id="photo" name="photo" type="file" className="sr-only" onChange={onImageChoose}/>
+                                                    <input id="image" name="image" type="file" className="sr-only" onChange={onImageChoose}/>
                                                 </label>
                                                 <p className="pl-1">or drag and drop</p>
                                             </div>
