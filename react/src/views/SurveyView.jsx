@@ -3,8 +3,11 @@ import {useState} from "react";
 import {PhotoIcon, UserCircleIcon} from "@heroicons/react/20/solid/index.js";
 import TButton from "../components/core/TButton.jsx";
 import axiosClient from "../axios.js";
+import {useNavigate} from "react-router-dom";
 
 export default function SurveyView() {
+    const navigate = useNavigate();
+
     const [ survey, setSurvey ] = useState({
         title: "",
         slug: "",
@@ -16,19 +19,48 @@ export default function SurveyView() {
         questions: []
     });
 
-    const onImageChoose = () => {
-        console.log("on image choose");
+    const [error, setError] = useState('')
+
+    const onImageChoose = (ev) => {
+        const file = ev.target.files[0]
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            setSurvey({
+                ...survey,
+                image: file,
+                image_url: reader.result
+            })
+
+            ev.target.value = "";
+        }
+
+        reader.readAsDataURL(file);
     }
 
     const onSubmit = (ev) => {
         ev.preventDefault();
 
-        axiosClient.post('/survey', {
-            title: 'Lorem Ipsum',
-            description: 'Lorem Ipsum',
-            expire_date: '11/24/2023',
-            status: true
-        })
+        const payload = {...survey};
+
+        if (payload.image) {
+            payload.image = payload.image_url
+        }
+
+        delete payload.image_url;
+
+        axiosClient.post('/survey', payload)
+            .then((res) => {
+                console.log(res);
+                navigate('/surveys')
+            })
+            .catch((err) => {
+                if (err && err.response) {
+                    setError(err.response.data.errors)
+                }
+                console.log(err, err.response)
+            })
     }
 
     return (
@@ -44,11 +76,20 @@ export default function SurveyView() {
                             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                 <div className="text-center">
                                     {survey.image_url && (
-                                        <img
-                                            src={survey.image_url}
-                                            alt={survey.title}
-                                            className="w-32 h-32 object-cover"
-                                        />
+                                        <div>
+                                            <img
+                                                src={survey.image_url}
+                                                alt={survey.title}
+                                                className="aspect-[4/3] object-contain"
+                                            />
+                                            <label
+                                                htmlFor="image"
+                                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                            >
+                                                <span>Change</span>
+                                                <input id="image" name="image" type="file" className="sr-only" onChange={onImageChoose}/>
+                                            </label>
+                                        </div>
                                     )}
                                     {!survey.image_url && (
                                         <div>
@@ -63,7 +104,7 @@ export default function SurveyView() {
                                                 </label>
                                                 <p className="pl-1">or drag and drop</p>
                                             </div>
-                                            <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                            <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF, JPEG</p>
                                         </div>
                                     )}
                                 </div>
@@ -85,9 +126,12 @@ export default function SurveyView() {
                                     onChange={(ev) =>
                                         setSurvey({...survey, title: ev.target.value})
                                     }
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 { error.title ? 'ring-red-500' : '' }"
                                 />
                             </div>
+                            {error.title && (<small className="text-sm text-red-500">
+                                {error.title}
+                            </small>)}
                         </div>
                         {/* Title */}
 
@@ -129,6 +173,9 @@ export default function SurveyView() {
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
+                            {error.expire_date && (<small className="text-sm text-red-500">
+                                {error.expire_date}
+                            </small>)}
                         </div>
                         {/* Expire Date */}
 
@@ -143,9 +190,9 @@ export default function SurveyView() {
                                                     id="status"
                                                     name="status"
                                                     type="checkbox"
-                                                    checked={survey.status}
+                                                    value={survey.status}
                                                     onChange={(ev) =>
-                                                        setSurvey({...survey, expire_date: ev.target.value})
+                                                        setSurvey({...survey, status: ev.target.checked})
                                                     }
                                                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                                 />
