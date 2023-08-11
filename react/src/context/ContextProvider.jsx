@@ -46,7 +46,7 @@ export const ContextProvider = ({children}) => {
 
     const [ surveys, setSurveys ] = useState(tmpSurveys)
     const [ userToken, _setUserToken ] = useState(localStorage.getItem('TOKEN') || '')
-    const [questionTypes] = useState(["text", "textarea", "radio", "select", "checkbox"])
+    const [ questionTypes] = useState(["text", "textarea", "radio", "select", "checkbox"])
 
     const setUserToken = (token) => {
         if (token) {

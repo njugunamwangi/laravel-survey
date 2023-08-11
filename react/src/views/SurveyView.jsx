@@ -64,8 +64,11 @@ export default function SurveyView() {
             })
     }
 
-    function onSurveyUpdate() {
-        setSurvey({...survey})
+    function onQuestionsUpdate(questions) {
+        setSurvey({
+            ...survey,
+            questions
+        })
     }
 
     return (
@@ -216,7 +219,7 @@ export default function SurveyView() {
                         {/* Active */}
 
                         {/* Survey Questions */}
-                        <SurveyQuestions survey={survey} onSurveyUpdate={onSurveyUpdate} />
+                        <SurveyQuestions questions={survey.questions} onQuestionsUpdate={onQuestionsUpdate} />
                         {/* Survey Questions */}
 
                         <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
