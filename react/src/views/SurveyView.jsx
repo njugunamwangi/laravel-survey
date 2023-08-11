@@ -4,6 +4,7 @@ import {PhotoIcon, UserCircleIcon} from "@heroicons/react/20/solid/index.js";
 import TButton from "../components/core/TButton.jsx";
 import axiosClient from "../axios.js";
 import {useNavigate} from "react-router-dom";
+import SurveyQuestions from "../components/SurveyQuestions.jsx";
 
 export default function SurveyView() {
     const navigate = useNavigate();
@@ -61,6 +62,10 @@ export default function SurveyView() {
                 }
                 console.log(err, err.response)
             })
+    }
+
+    function onSurveyUpdate() {
+        setSurvey({...survey})
     }
 
     return (
@@ -209,6 +214,10 @@ export default function SurveyView() {
                             </div>
                         </div>
                         {/* Active */}
+
+                        {/* Survey Questions */}
+                        <SurveyQuestions survey={survey} onSurveyUpdate={onSurveyUpdate} />
+                        {/* Survey Questions */}
 
                         <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
                             <TButton>
