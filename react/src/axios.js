@@ -2,7 +2,7 @@ import axios from 'axios';
 import router from "./router.jsx";
 
 const axiosClient = axios.create({
-    baseURL: `${import.meta.env.VITE_API_bASE_URL}/api`
+    baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`
 })
 
 axiosClient.interceptors.request.use((config) => {
@@ -15,8 +15,8 @@ axiosClient.interceptors.response.use(response => {
 }, error => {
     if (error.response && error.response.status === 401 ) {
         localStorage.removeItem('TOKEN')
-        router.navigate('login')
-        return error;
+        window.location.reload()
+        router.navigate('/login')
     }
     throw error;
 })
