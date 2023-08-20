@@ -5,6 +5,7 @@ import {PlusCircleIcon} from "@heroicons/react/20/solid/index.js";
 import {useEffect, useState} from "react";
 import axiosClient from "../axios.js";
 import PaginationLinks from "../components/PaginationLinks.jsx";
+import {BlocksWave} from "react-svg-spinners";
 
 export default function Surveys() {
     const [surveys, setSurveys] = useState([]);
@@ -29,8 +30,8 @@ export default function Surveys() {
                 <PlusCircleIcon className="h-6 w-6 mr-2" />Create New
             </TButton>
         )}>
-            {loading && (<div>
-                Loading...
+            {loading && (<div className="items-center">
+                <BlocksWave  />
             </div>)}
             {!loading && (<div>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
