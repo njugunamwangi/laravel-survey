@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateSurveyRequest;
 use App\Http\Resources\SurveyResource;
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
-use http\Env\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -29,8 +29,8 @@ class SurveyController extends Controller
 
         return SurveyResource::collection(
             Survey::where('user_id', '=', $user->id)
-                ->orderBy('created_by', 'desc')
-                ->paginate(10)
+                ->orderBy('created_at', 'desc')
+                ->paginate(1)
         );
     }
 
