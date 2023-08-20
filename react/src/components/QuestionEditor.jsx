@@ -104,7 +104,7 @@ export default function QuestionEditor({
                             id="questionDescription"
                             name="questionDescription"
                             rows={3}
-                            value={model.description}
+                            value={model.description || ''}
                             onChange={(ev) =>
                                 setModel({...model, description: ev.target.value})
                             }

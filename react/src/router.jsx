@@ -9,37 +9,41 @@ import SurveyView from "./views/SurveyView.jsx";
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: "/",
         element: <DefaultLayout />,
         children: [
             {
-                path: '/dashboard',
+                path: "/dashboard",
                 element: <Navigate to="/" />
             },
             {
-                path: '/',
+                path: "/",
                 element: <Dashboard />
             },
             {
-                path: 'surveys',
+                path: "surveys",
                 element: <Surveys />
             },
             {
-                path: 'surveys/create',
+                path: "surveys/create",
                 element: <SurveyView />
             },
+            {
+                path: "surveys/:id",
+                element: <SurveyView />
+            }
         ]
     },
     {
-        path: '/',
+        path: "/",
         element: <GuestLayout />,
         children: [
             {
-                path: 'login',
+                path: "login",
                 element: <Login />
             },
             {
-                path: 'signup',
+                path: "signup",
                 element: <Signup />
             },
         ]
