@@ -46,7 +46,7 @@ export default function Surveys() {
         <PageComponent
             title="Surveys"
             buttons={
-                <TButton color="green" to="/survey/create">
+                <TButton color="green" to="/surveys/create">
                     <PlusCircleIcon className="h-6 w-6 mr-2" />
                     Create new
                 </TButton>
@@ -57,7 +57,7 @@ export default function Surveys() {
                 <div>
                     {surveys.length === 0 && (
                         <div className="py-8 text-center text-gray-700">
-                            You don't have surveys created
+                            You have not created surveys yet
                         </div>
                     )}
                     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
