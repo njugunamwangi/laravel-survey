@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useStateContext} from "../context/ContextProvider.jsx";
 import {PlusIcon, TrashIcon} from "@heroicons/react/20/solid/index.js";
+import { v4 as uuidv4 } from "uuid";
 
 export default function QuestionEditor({
     index = 0,
@@ -16,6 +17,46 @@ export default function QuestionEditor({
         questionChange(model)
     }, [model])
 
+    function shouldHaveOptions(type = null) {
+        type = type || model.type
+        return['select', 'radio', 'checkbox'].includes(type)
+    }
+
+    function onTypeChange(ev) {
+        const newModel = {
+            ...model,
+            type: ev.target.value
+        }
+        if (!shouldHaveOptions(model.type) && shouldHaveOptions(ev.target.value)) {
+            if (!model.data.options) {
+                newModel.data = {
+                    options: [
+                        {
+                            uuid: uuidv4(),
+                            text: ''
+                        }
+                    ]
+                }
+            }
+        } else if (shouldHaveOptions(model.type) && !shouldHaveOptions(ev.target.value)) {
+            newModel.data = {}
+        }
+        setModel(newModel)
+    }
+
+    function addOption() {
+        model.data.options.push({
+            uuid: uuidv4(),
+            text: ''
+        })
+        setModel({...model})
+    }
+
+    function deleteOption(op) {
+        model.data.options = model.data.options.filter(option => option.uuid != op.uuid)
+        setModel({...model})
+    }
+
     function upperCaseFirst(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
@@ -23,7 +64,7 @@ export default function QuestionEditor({
     return (
         <>
             <div className="flex justify-between mb-3">
-                <h4>
+                <h4 className="font-semibold">
                     {index + 1}. {model.question}
                 </h4>
                 <div className="flex items-center">
@@ -76,9 +117,7 @@ export default function QuestionEditor({
                             id="questionType"
                             name="questionType"
                             value={model.type}
-                            onChange={(ev) =>
-                                setModel({...model, type: ev.target.value})
-                            }
+                            onChange={onTypeChange}
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                         >
                             <option value="">Select type of question</option>
@@ -115,6 +154,57 @@ export default function QuestionEditor({
                 </div>
                 {/* Description */}
             </div>
+
+            <div>
+                {
+                    shouldHaveOptions() && (
+                        <div>
+                            <h4 className="text-sm font-semibold mb-1 flex justify-between items-center">
+                                Options
+
+                                <button
+                                    onClick={addOption}
+                                    type="button"
+                                    className="flex items-center text-xs py-1 px-2 rounded-sm text-white bg-gray-500 hover:bg-gray-700">
+                                    Add Option
+                                </button>
+                            </h4>
+
+                            {
+                                model.data.options.length === 0 && (
+                                    <div className="flex items-center text-xs py-1 px-2 rounded-sm text-gray-500 ">
+                                        You dont have options defined
+                                    </div>
+                                )
+                            }
+                            {
+                                model.data.options.length > 0 && (
+                                    <div>
+                                        {model.data.options.map((op, ind) => (
+                                            <div key={op.uuid} className="flex items-center mb-1">
+                                                <span className="w-6 text-sm">{ ind + 1 }.</span>
+                                                <input
+                                                    className="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 focus:border-indigo-500"
+                                                    type="text"
+                                                    value={op.text}
+                                                    onInput={ev => {op.text = ev.target.value, setModel({...model}) }}
+                                                />
+                                                <button
+                                                    onClick={ev => deleteOption(op)}
+                                                    type="button"
+                                                    className="h-6 w-6 rounded-full flex items-center justify-center border border-transparent transition-colors hover:border-red-100">
+                                                    <TrashIcon className="w-5 h-5 text-red-500" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )
+                            }
+                        </div>
+                    )
+                }
+            </div>
+            <hr />
         </>
     )
 }
