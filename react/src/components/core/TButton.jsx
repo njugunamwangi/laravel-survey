@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 
 export default function TButton({ color = 'indigo', to = '', circle = false, onClick = () => {}, href = '', link = false, target = '_blank', children}) {
 
-    let classes = ["flex", "whitespace-nowrap", "text-sm", "border", "border-2", "border-transparent"];
+    let classes = ["flex", "items-center", "whitespace-nowrap", "text-sm", "border", "border-2", "border-transparent"];
 
     if (link) {
         classes = [
