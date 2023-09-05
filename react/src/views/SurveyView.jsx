@@ -1,12 +1,13 @@
 import PageComponent from "../components/PageComponent.jsx";
 import {useEffect, useState} from "react";
-import {PhotoIcon, UserCircleIcon} from "@heroicons/react/20/solid/index.js";
+import {ArrowTopRightOnSquareIcon, PhotoIcon, TrashIcon, UserCircleIcon} from "@heroicons/react/20/solid/index.js";
 import TButton from "../components/core/TButton.jsx";
 import axiosClient from "../axios.js";
 import {useNavigate, useParams} from "react-router-dom";
 import SurveyQuestions from "../components/SurveyQuestions.jsx";
-import {TwelveDotsScaleRotate} from "react-svg-spinners";
 import {useStateContext} from "../context/ContextProvider.jsx";
+import Loading from "../components/core/Loading.jsx";
+import {PlusCircleIcon} from "@heroicons/react/24/outline/index.js";
 
 export default function SurveyView() {
     const { showToast } = useStateContext();
@@ -82,6 +83,10 @@ export default function SurveyView() {
                 })
     }
 
+    const onDelete = () => {
+
+    }
+
     useEffect(() => {
         if (id) {
             setLoading(true)
@@ -101,9 +106,23 @@ export default function SurveyView() {
     }
 
     return (
-        <PageComponent title={!id ? 'Create New Survey' : 'Update Survey'}>
+        <PageComponent
+            title={!id ? 'Create New Survey' : 'Update Survey'}
+            buttons={
+                <div className="flex gap-2">
+                    <TButton color="red" onClick={onDelete} >
+                        <TrashIcon className="h-4 w-4 mr-2" />
+                        Delete Survey
+                    </TButton>
+                    <TButton color="green" href={`/survey/public/${survey.slug}`}>
+                        <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-2" />
+                        Public Link
+                    </TButton>
+                </div>
+            }
+        >
             {loading && (
-                <div className="items-center"> <TwelveDotsScaleRotate /> </div>
+                <div className="items-center"> <Loading /> </div>
             )}
             {!loading && (
                 <form action="#" method="POST" onSubmit={onSubmit} >

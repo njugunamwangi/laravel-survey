@@ -4,7 +4,7 @@ import {Bars3Icon, UserIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import {Navigate, NavLink, Outlet} from "react-router-dom";
 import {useStateContext} from "../context/ContextProvider.jsx";
 import axiosClient from "../axios.js";
-import Toast from "./Toast.jsx";
+import Toast from "./core/Toast.jsx";
 import Loading from "./core/Loading.jsx";
 
 const navigation = [

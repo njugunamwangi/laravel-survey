@@ -1,5 +1,6 @@
 import {Navigate, Outlet} from "react-router-dom";
 import {useStateContext} from "../context/ContextProvider.jsx";
+import Error from "./core/Error.jsx";
 
 export default function GuestLayout() {
     const { userToken } = useStateContext();
@@ -20,6 +21,8 @@ export default function GuestLayout() {
                 </div>
 
                 <Outlet />
+
+                <Error />
             </div>
         </>
     )

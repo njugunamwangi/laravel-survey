@@ -7,6 +7,8 @@ import Loading from "../components/core/Loading.jsx";
 export default function Login() {
     const { setCurrentUser, setUserToken } = useStateContext();
 
+    const { showError } = useStateContext()
+
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
 
@@ -30,9 +32,8 @@ export default function Login() {
             })
             .catch((error) => {
                 setLoading(false)
-                if (error.response) {
-                    const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum, ...next  ], [])
-                    setError({__html: finalErrors.join('<br>')})
+                if (error.response.status === 422) {
+                    showError(error.response.data.error)
                 }
                 console.error(error);
             })

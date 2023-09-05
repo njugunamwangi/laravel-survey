@@ -1,4 +1,4 @@
-import {useStateContext} from "../context/ContextProvider.jsx";
+import {useStateContext} from "../../context/ContextProvider.jsx";
 
 export default function Toast() {
     const { toast} = useStateContext();
