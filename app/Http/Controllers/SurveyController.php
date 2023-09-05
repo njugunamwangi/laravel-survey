@@ -219,4 +219,8 @@ class SurveyController extends Controller
 
         return $question->update($validator->validated());
     }
+
+    public function getBySlug(Survey $survey) {
+        return $survey;
+    }
 }
