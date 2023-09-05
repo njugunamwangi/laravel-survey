@@ -1,10 +1,11 @@
-import {Fragment, useEffect} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {Bars3Icon, UserIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import {Navigate, NavLink, Outlet} from "react-router-dom";
 import {useStateContext} from "../context/ContextProvider.jsx";
 import axiosClient from "../axios.js";
 import Toast from "./Toast.jsx";
+import Loading from "./core/Loading.jsx";
 
 const navigation = [
     { name: 'Dashboard', to: '/'},
@@ -18,16 +19,17 @@ function classNames(...classes) {
 export default function DefaultLayout() {
     const {currentUser, userToken, setUserToken, setCurrentUser} = useStateContext()
 
-    if ( !userToken ) {
-        return <Navigate to="/login" />
-    }
+    const [ loading, setLoading ] = useState(false)
 
     const logout = (ev) => {
         ev.preventDefault();
+        setLoading(true)
+
         axiosClient.post('/logout')
-            .then(res => {
+            .then(() => {
                 setCurrentUser({})
                 setUserToken(null)
+                setLoading(false)
             })
     }
 
@@ -37,6 +39,11 @@ export default function DefaultLayout() {
                 setCurrentUser(data)
             })
     }, [])
+
+    if ( !userToken ) {
+        return <Navigate to="/login" />
+    }
+
 
     return (
         <>
@@ -165,9 +172,21 @@ export default function DefaultLayout() {
                     )}
                 </Disclosure>
 
-                <Outlet />
+                {
+                    loading && (
+                        <Loading />
+                    )
+                }
 
-                <Toast />
+                {
+                    !loading && (
+                        <>
+                            <Outlet />
+
+                            <Toast />
+                        </>
+                    )
+                }
             </div>
         </>
     )
