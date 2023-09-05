@@ -6,8 +6,7 @@ import PageComponent from "../components/PageComponent";
 import PaginationLinks from "../components/PaginationLinks";
 import SurveyListItem from "../components/SurveyListItem";
 import { useStateContext } from "../context/ContextProvider";
-import router from "../router";
-import {TwelveDotsScaleRotate} from "react-svg-spinners";
+import Loading from "../components/core/Loading.jsx";
 
 export default function Surveys() {
     const { showToast } = useStateContext();
@@ -52,7 +51,7 @@ export default function Surveys() {
                 </TButton>
             }
         >
-            {loading && (<div className="items-center "> <TwelveDotsScaleRotate /> </div>)}
+            {loading && (<div className="items-center "> <Loading /> </div>)}
             {!loading && (
                 <div>
                     {surveys.length === 0 && (
