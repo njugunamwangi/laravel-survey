@@ -73,14 +73,14 @@ export default function QuestionEditor({
                         className="flex items-center text-xs py-1 px-3 mr-2 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
                         onClick={() => addQuestion(index + 1)}
                     >
-                        <PlusIcon className="w-4" /> Add
+                        <PlusIcon className="w-4" /> Add Question
                     </button>
                     <button
                         type="button"
                         className="flex items-center text-xs py-1 px-3 mr-2 rounded-sm border border-transparent text-red-500 hover:border-red-600 font-semibold"
                         onClick={() => deleteQuestion(question)}
                     >
-                        <TrashIcon className="w-4" /> Delete
+                        <TrashIcon className="w-4" /> Delete Question
                     </button>
                 </div>
             </div>
