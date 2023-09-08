@@ -221,6 +221,18 @@ class SurveyController extends Controller
     }
 
     public function getBySlug(Survey $survey) {
-        return $survey;
+
+        if (!$survey->status) {
+            return response("Survey not active", 404);
+        }
+
+        $currentDate = new \DateTime();
+        $expireDate = new \DateTime($survey->expire_date);
+
+        if ($currentDate > $expireDate) {
+            return response("Survey Expired", 404);
+        }
+
+        return new SurveyResource($survey);
     }
 }
