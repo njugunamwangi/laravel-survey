@@ -1,6 +1,6 @@
 import {Navigate, Outlet} from "react-router-dom";
 import {useStateContext} from "../context/ContextProvider.jsx";
-import Error from "./core/Error.jsx";
+import Toast from "./core/Toast.jsx";
 
 export default function GuestLayout() {
     const { userToken } = useStateContext();
@@ -22,7 +22,7 @@ export default function GuestLayout() {
 
                 <Outlet />
 
-                <Error />
+                <Toast />
             </div>
         </>
     )
