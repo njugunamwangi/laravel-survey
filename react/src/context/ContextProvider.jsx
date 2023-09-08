@@ -8,6 +8,7 @@ const StateContext = createContext({
     toast: {
         message: null,
         show: false,
+        variant: null
     },
     setCurrentUser: () => {},
     setUserToken: () => {},
@@ -18,7 +19,7 @@ export const ContextProvider = ({children}) => {
     const [ surveys, setSurveys ] = useState([])
     const [ userToken, _setUserToken ] = useState(localStorage.getItem('TOKEN') || '')
     const [ questionTypes] = useState(["text", "textarea", "radio", "select", "checkbox"])
-    const [ toast, setToast ] = useState({message: '', show: false})
+    const [ toast, setToast ] = useState({message: '', variant: '', show: false})
 
     const setUserToken = (token) => {
         if (token) {
@@ -29,10 +30,10 @@ export const ContextProvider = ({children}) => {
         _setUserToken(token);
     }
 
-    const showToast = (message) => {
-        setToast({message, show: true})
+    const showToast = (message, variant) => {
+        setToast({message, variant, show: true})
         setTimeout(() => {
-            setToast({message: '', show: false})
+            setToast({message: '', variant: '', show: false})
         }, 5000)
     }
 

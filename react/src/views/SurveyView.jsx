@@ -10,7 +10,7 @@ import Loading from "../components/core/Loading.jsx";
 import {PlusCircleIcon} from "@heroicons/react/24/outline/index.js";
 
 export default function SurveyView() {
-    const { showToast } = useStateContext();
+    const { showToast } = useStateContext({});
 
     const navigate = useNavigate();
 
@@ -71,14 +71,14 @@ export default function SurveyView() {
                 .then((res) => {
                     navigate('/surveys')
                     if (id) {
-                        showToast('The survey was updated');
+                        showToast('The survey was updated', 'success');
                     } else {
-                        showToast('The survey was created');
+                        showToast('The survey was created', 'success');
                     }
                 })
                 .catch((err) => {
                     if (err && err.response) {
-                        setError(err.response.data.errors)
+                        showToast(err.response.data.errors, 'error')
                     }
                 })
     }

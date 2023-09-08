@@ -7,7 +7,7 @@ import Loading from "../components/core/Loading.jsx";
 export default function Login() {
     const { setCurrentUser, setUserToken } = useStateContext();
 
-    const { showToast } = useStateContext()
+    const { showToast } = useStateContext({})
 
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
@@ -33,9 +33,8 @@ export default function Login() {
             .catch((error) => {
                 setLoading(false)
                 if (error.response.status === 422) {
-                    showToast(error.response.data.error)
+                    showToast(error.response.data.error, 'error')
                 }
-                console.error(error);
             })
     };
 
