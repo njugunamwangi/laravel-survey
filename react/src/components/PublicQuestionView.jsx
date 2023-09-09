@@ -12,8 +12,8 @@ export default function PublicQuestionView({question, index, answerChanged}) {
 
     return (
         <>
-            <div className="border-b  border-gray-900/10 pb-12">
-                <h2 className="text-base mt-2 font-semibold leading-7 text-gray-900">{ index + 1 } { question.question }</h2>
+            <div className="border-b border-gray-900/10 pb-12">
+                <h2 className="text-base mt-2 font-semibold leading-7 text-gray-900">{ index + 1 }. { question.question }</h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600"> { question.description } </p>
 
                 <div className="mt-3">
@@ -57,7 +57,6 @@ export default function PublicQuestionView({question, index, answerChanged}) {
                                     <div className="flex h-6 items-center">
                                         <input
                                             id={option.uuid}
-                                            name="comments"
                                             onChange={ev => onCheckboxChange(option, ev)}
                                             type="checkbox"
                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
@@ -88,7 +87,6 @@ export default function PublicQuestionView({question, index, answerChanged}) {
                         <div className="col-span-full">
                             <div className="mt-2">
                             <textarea
-                                id="about"
                                 onChange={ev => answerChanged(ev.target.value)}
                                 rows={3}
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
