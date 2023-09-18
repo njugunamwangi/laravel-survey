@@ -30,11 +30,12 @@ export default function Surveys() {
     const getSurveys = (url) => {
         url = url || "/survey";
         setLoading(true);
-        axiosClient.get(url).then(({ data }) => {
-            setSurveys(data.data);
-            setMeta(data.meta);
-            setLoading(false);
-        });
+        axiosClient.get(url)
+            .then(({ data }) => {
+                setSurveys(data.data);
+                setMeta(data.meta);
+                setLoading(false);
+            });
     };
 
     useEffect(() => {
